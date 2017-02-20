@@ -12,7 +12,6 @@ from selenium.webdriver.remote.errorhandler import NoSuchElementException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 #==============================================================================
-#browser = webdriver.Chrome('/home/user15/Downloads/David/chromedriver')
 #url='localhost:6060'
 #browser.get(url)
 #browser.find_elements_by_xpath("//a [@data-value='Download Report']")
@@ -28,7 +27,6 @@ from selenium.webdriver.common.by import By
 #browser.find_element_by_class_name('progress').text
 #     print(ii.tag_name)
 # #browser.find_element_by_css_selector('.input-group-btn:first-child ').click()
-#browser.find_element_by_id('file1').send_keys("C:\\Users\\Marion\\Downloads\\GPSDataDateModified.csv")
 # 
 
 #Ideally have a test that first checks that all elements in hompage are present when visited
@@ -41,7 +39,7 @@ class AppTest(unittest.TestCase):
     @classmethod    
     def setUp(inst):
         url='localhost:6060'
-        inst.driver=webdriver.Chrome('/home/user15/Downloads/David/chromedriver')
+        inst.driver=webdriver.Chrome('PathToChromeDriver')
         inst.driver.get(url)
         
     def test_title(self):
@@ -105,7 +103,6 @@ class AppTest(unittest.TestCase):
     
     #def test_local_file_upload(self):
     #    '''check that the page allows the user to upload a local csv file'''
-    #    self.driver.find_element_by_id('file1').send_keys("C:\\Users\\Marion\\Downloads\\GPSDataDateModified.csv")
     #    self.assertEqual(self.driver.find_element_by_class_name('progress'),'Upload complete','When a file upload is attempted, the upload box does not display Upload complete')
     
     def elementExists(self, how, what):
