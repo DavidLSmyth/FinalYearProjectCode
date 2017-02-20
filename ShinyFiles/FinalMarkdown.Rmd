@@ -1,0 +1,26 @@
+---
+title: "Final Markdown Markdown"
+author: "David"
+output: html_document
+---
+
+The aim of this document is to set up a template which will allow a user to input some data and then create a report based on the data that the user has inputted. It will eventually be downloaded through Shiny. To keep things simple, it will be easiest to start in HTML.
+<strong>Aims: </strong>
+<ol>
+<li>A serparate page for each player which gives some summary statistics and graphs for each player.</li>
+<li>Similarity rating between players: this would be useful because it's much easier to judge performance relative to something</li>
+<li>Some team statistics and statistics for groups of players, e.g. midfielders etc.
+<li>One page of very high level feedback;for when the coach only wants an overview of what is going on. Which players have underperformed, which players are performing the best, some projections would be nice.</li>
+</ol>
+<ol>
+
+<strong>Necessary steps to achieve this: </strong>
+<li>Obtaining a full dataframe would be best. If the data comes in a specified format, the validation and error checking should be done before the data gets this far.</li>
+<li>Design an individual player page template which has been paramterised</li>
+<li>Fill in the template for each player</li>
+<li>Design a team template. </li>
+<li>Parameterise the template and check that it has been filled in correctly</li>
+<li>High level team statistics</li>
+</ol>
+
+

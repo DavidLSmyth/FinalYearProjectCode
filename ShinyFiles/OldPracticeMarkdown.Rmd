@@ -1,0 +1,129 @@
+---
+  output: html_document
+#name should be the param I think
+params: 
+  name: "None"
+#can add additional data subsetting here
+---
+  
+  
+  
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(comment=NA)
+knitr::opts_chunk$set(opts.label="kill_prefix")
+```
+
+
+```{r echo=FALSE}
+#library(dplyr)
+#load('/home/user15/RPrograms/SimulatedDataShiny/data/SimulatedData.RData')
+#params=list()
+#SimulatedData=SimulatedData
+PlayerNames=unique(SimulatedData$Name)
+```
+
+<h3>Summary for :
+  `r params$name`:
+  </h3>
+  <!--there must be a better way to do this-->
+  <table>
+  <tr>
+  <td>
+  ```{r echo=FALSE, comment=""}
+
+#library(dplyr)
+#dplyr summarise(group_by()) could probably generate all of these in one go! Might be worth making a big list
+
+#maybe can do this without a for loop
+#for(player in PlayerNames){}
+summary(SimulatedData[SimulatedData$Name==params$name,c('Attribute1','Attribute2')])
+#lapply(list(SimulatedData[SimulatedData$Name==params$name,c('Attribute1')]),sd)
+#lapply(list(SimulatedData[SimulatedData$Name==params$name,c('Attribute2')]),sd)
+```
+</td>
+  <td>
+  ```{r standard devs, echo=FALSE}
+for(var in c('Attribute1','Attribute2')){
+  cat(paste('Standard Deviation of',var,'for',params$name,': '))
+  cat(unlist(lapply(list(SimulatedData[SimulatedData$Name==params$name,var]),sd)))
+  cat('\n')
+}
+```
+</td>
+  </table>
+  
+  
+  
+  ```{r plot, echo=FALSE}
+dates=SimulatedData[SimulatedData$Name==params$name,'Dates']
+plot(dates,
+     SimulatedData[SimulatedData$Name==params$name,
+                   'Attribute1'],type='l',
+     xlab='Date',ylab='time',main='Attribute 1 plot')
+lines(dates,
+      unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute1']),mean),
+                 length(SimulatedData[SimulatedData$Name==params$name,'Dates']))),col='red')
+
+lines(dates,
+      c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute1']),mean),                 ,
+                   length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      +c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute1']),sd),
+                    length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      ,col='blue')
+lines(dates,
+      c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute1']),mean),                 ,
+                   length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      -c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute1']),sd),
+                    length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      ,col='blue')
+
+```
+
+
+
+
+</table>
+  ```{r plot1, echo=FALSE}
+
+
+
+
+
+dates=SimulatedData[SimulatedData$Name==params$name,'Dates']
+plot(dates,
+     SimulatedData[SimulatedData$Name==params$name,
+                   'Attribute2'],type='l',
+     xlab='Date',ylab='time',main='Attribute 2 plot')
+lines(dates,
+      unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute2']),mean),
+                 length(SimulatedData[SimulatedData$Name==params$name,'Dates']))),col='red')
+
+lines(dates,
+      c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute2']),mean),                 ,
+                   length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      +c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute2']),sd),
+                    length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      ,col='blue')
+lines(dates,
+      c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute2']),mean),                 ,
+                   length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      -c(unlist(rep(lapply(list(SimulatedData[SimulatedData$Name==params$name,'Attribute2']),sd),
+                    length(SimulatedData[SimulatedData$Name==params$name,'Dates']))))
+      ,col='blue')
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+

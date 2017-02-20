@@ -1,0 +1,161 @@
+---
+title: 'Sample Report'
+output: 
+  html_document:
+    fig_height: 20
+    fig_width: 20
+params: 
+  name: "None"
+  notes: "None"
+runtime: shiny
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(comment=NA)
+knitr::opts_chunk$set(opts.label="kill_prefix")
+```
+
+
+<h3>Summary for
+`r params$name`:
+</h3>
+<!--there must be a better way to do this-->
+
+```{r intial table,echo=FALSE}
+library(DT)
+library(lubridate)
+library(ggplot2)
+Attribute=c('Name: ','Position: ', 'Squad: ','Number of entries in DataFrame: ','Performs Best in: ', 'Performs worst in: ')
+Value=c(params$name,
+      paste(unique(ProcessedData[ProcessedData$Name==params$name,'Position'])[unlist(lapply(unique(ProcessedData[ProcessedData$Name==params$name,'Position']),function (x) x!=''))],collapse=' & '),    
+            paste(unique(ProcessedData[ProcessedData$Name==params$name,'Squad'])[unlist(lapply(unique(ProcessedData[ProcessedData$Name==params$name,'Squad']),function (x) x!=''))],collapse=' & '),
+            unique(nrow(ProcessedData[ProcessedData$Name==params$name,])),'','')
+library(knitr)
+datatable(as.data.frame(cbind(Attribute,Value)),options=list(paging=FALSE,searching=FALSE,info=FALSE))
+```
+
+```{r standard devs, echo=FALSE}
+for(var in c('Duration','New.Bodyload')){
+  cat(paste('Standard Deviation of',var,'for',params$name,': '))
+  cat(unlist(lapply(list(ProcessedData[ProcessedData$Name==params$name,var]),sd)))
+  cat('\n')
+}
+```
+
+
+```{r plot1, echo=FALSE}
+radarPlotDataFrame <- function(date='None'){
+  if(date=='None'){
+    minusDays=days(difftime(max(ProcessedData[ProcessedData$Name==params$name,'Date']),min(ProcessedData[ProcessedData$Name==params$name,'Date'])))
+  }
+  else{
+    minusDays=days(date)
+  }
+  pos=ProcessedData[ProcessedData$Name==params$name,]$Position[1]
+  #rename to similar players
+  players=unique(ProcessedData[ProcessedData$Position==pos,'Name'],na.rm=TRUE)
+  players=setdiff(c(players,'Mean'),params$name)
+  
+  freqs=lapply(players,function (x) sum(ProcessedData$Name%in%x))
+  #find player who has most dataframe entries in same position
+  mostSimilar=which(unlist(freqs)==max(unlist(freqs)))
+  #secondMost=which(unlist(freqs)==max(unlist(freqs)[-mostSimilar]))
+  #Add other variables to this
+  relevantVariables=c('Duration','Distance','New.Bodyload','Collisions','Avg.Speed',"Avg.HR","Sprint.Count","Metabolic.Power.Average")
+  mydata=ProcessedData[ProcessedData$Date>=(max(ProcessedData[ProcessedData$Name==params$name,'Date'])-minusDays)&ProcessedData$Name==players[mostSimilar],relevantVariables]
+  mydata1=ProcessedData[ProcessedData$Date>=max(ProcessedData[ProcessedData$Name==params$name,'Date'])-minusDays&ProcessedData$Name==params$name,relevantVariables]
+  #mydata2=ProcessedData[ProcessedData$Name==players[secondMost],relevantVariables]
+  mydata3=ProcessedData[ProcessedData$Date>=max(ProcessedData[ProcessedData$Name==params$name,'Date'])-minusDays&ProcessedData$Name=="Mean",relevantVariables]
+  colMeans(mydata)
+  colMeans(mydata1)
+  renderData=as.data.frame(rbind(colMeans(mydata),colMeans(mydata1),colMeans(mydata3)))
+  #renderData=as.data.frame(rbind(c(35,2500,80,15),c(0,0,0,0),renderData))
+  #rownames(renderData)=c(params$name,as.character(players[mostSimilar]),"Mean")
+  
+  #colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9), rgb(0.2,0.8,0.1,0.4))
+  #colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4), rgb(0.2,0.8,0.1,0.4))
+  
+  colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
+  colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
+  #cat('players')
+  #cat(players)
+  #cat('Radarchart of ',params$name,' ',mostSimilar)
+  #[-c(1,2),] 
+  radarchart( renderData , axistype=3 , maxmin=F, seg=5,
+              pcol=colors_border, plwd=3, plty=1,title=paste('RadarChart for player',params$name,' compared with player', players[mostSimilar],' and the mean value' ), axislabcol="black",
+              vlcex=1.5)
+  #[-c(1,2),]
+  legend(x=0.7, y=1, legend =c(params$name,as.character(players[mostSimilar]),"Mean"), bty = "n", pch=20 , col=colors_in , text.col = "Black", cex=1.2, pt.cex=3)
+}
+
+```
+
+```{r firstRadarChart, echo=FALSE}
+#Plots mean value of variables for the whole dataframe
+radarPlotDataFrame()
+```
+
+```{r secondRadarChart, echo=FALSE}
+#Plots mean value of variables for the past month (i.e. past 31 days)
+radarPlotDataFrame(31)
+```
+
+```{r dataFrameSummary, echo=FALSE}
+cat('please work')
+dataFrameNames=c('Drill','Start.Time','Duration','Distance','Max.Speed','Avg.Speed','Max.HR',"Avg.HR" ,"Sprint.Count","New.Bodyload" ,"Collisions","Sprint.Total.Distance" ,"Metabolic.Power.Average")
+library(knitr)
+datatable(
+ ProcessedData[ProcessedData$Name==params$name,dataFrameNames], 
+ extensions = 'Scroller',
+  options = list(
+  dom = 't',
+  scrollX = TRUE,
+  #scrollCollapse = TRUE
+  deferRender = TRUE,
+  scrollY = 500,
+  scroller = TRUE,
+  rownames=FALSE))
+
+```
+
+
+```{r new.bodyloadPlot, echo=FALSE}
+library(scales)
+params$name
+seasonalData=aggregate(ProcessedData[ProcessedData$Name=='1','Metabolic.Power.Average'],by=list(ProcessedData[ProcessedData$Name=='1','Date']),FUN=mean)
+seasonalData$Group.1=as.Date(seasonalData$Group.1,format='%d/%m/%Y')
+ordering=order(seasonalData$Group.1)
+seasonalData=seasonalData[ordering,]
+names(seasonalData)=c('Date','New.Bodyload')
+seasonStart=as.Date('16/09/2015',format='%d/%m/%Y')
+seasonEnd=as.Date('28/04/2015',format='%d/%m/%Y')
+preSeasonStart=as.Date("10/07/2015",format='%d/%m/%Y')
+seasonPlot=ggplot(seasonalData,aes(x=Date,y=New.Bodyload))
+seasonPlot+geom_point(size=0.25)+geom_line(size=0.25)+
+  annotate('rect',xmin=seasonEnd, xmax=seasonStart,
+           ymin=0, ymax=Inf,alpha=0.4,fill='white')+
+  
+  annotate('rect',xmin=min(seasonalData$Date), xmax=max(seasonalData$Date),
+           ymin=0, ymax=Inf,alpha=0.15,fill='blue')+
+  
+  annotate('rect',xmin=preSeasonStart, xmax=seasonStart,
+           ymin=0, ymax=Inf,alpha=0.15,fill='red')+ geom_smooth(size=0.6)+
+  
+  annotate('rect',xmin=seasonEnd, xmax=preSeasonStart,
+           ymin=0, ymax=Inf,alpha=0.15,fill='green')+
+  
+  annotate("text", x = median(c(seasonEnd,preSeasonStart)), y = mean(seasonalData$New.Bodyload), label = "Training break",angle = 90,color='red',size=7,alpha=0.5)+
+  annotate("text", x = median(seasonalData$Date), y = mean(seasonalData$New.Bodyload), label = "PreSeason 2016",angle = 90,color='red',size=7,alpha=0.5)+
+  scale_x_date(breaks = seq.Date(min(seasonalData$Date), max(seasonalData$Date), by = 'month'),labels = date_format("%b"))
+
+```
+
+
+```{r additional report notes, echo=FALSE}
+if(params$notes!="None"){
+  cat(paste('\nAdditional notes: ','\n',params$notes))
+}
+```

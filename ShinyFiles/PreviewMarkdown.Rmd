@@ -1,0 +1,108 @@
+---
+title: 'Sample Report'
+output: 
+  html_document:
+    fig_height: 20
+    fig_width: 20
+params: 
+  name: "None"
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(comment=NA)
+knitr::opts_chunk$set(opts.label="kill_prefix")
+```
+<h3>Summary for
+`r params$name`:
+</h3>
+<!--there must be a better way to do this-->
+
+```{r intial table,echo=FALSE}
+library(DT)
+library(lubridate)
+Attribute=c('Name: ','Position: ', 'Squad: ','Number of entries in DataFrame: ','Performs Best in: ', 'Performs worst in: ')
+Value=c(params$name,
+      paste(unique(ProcessedData[ProcessedData$Name==params$name,'Position'])[unlist(lapply(unique(ProcessedData[ProcessedData$Name==params$name,'Position']),function (x) x!=''))],collapse=' & '),    
+            paste(unique(ProcessedData[ProcessedData$Name==params$name,'Squad'])[unlist(lapply(unique(ProcessedData[ProcessedData$Name==params$name,'Squad']),function (x) x!=''))],collapse=' & '),
+            unique(nrow(ProcessedData[ProcessedData$Name==params$name,])),'','')
+library(knitr)
+kable(as.data.frame(cbind(Attribute,Value)), padding = 50)
+```
+
+```{r standard devs, echo=FALSE}
+for(var in c('Duration','New.Bodyload')){
+  cat(paste('Standard Deviation of',var,'for',params$name,': '))
+  cat(unlist(lapply(list(ProcessedData[ProcessedData$Name==params$name,var]),sd)))
+  cat('\n')
+}
+```
+
+
+```{r plot1, echo=FALSE}
+radarPlotDataFrame <- function(t,date='None'){
+  if(date=='None'){
+    minusDays=days(difftime(max(ProcessedData[ProcessedData$Name==params$name,'Date']),min(ProcessedData[ProcessedData$Name==params$name,'Date'])))
+  }
+  else{
+    minusDays=days(date)
+  }
+  pos=ProcessedData[ProcessedData$Name==params$name,]$Position[1]
+  #rename to similar players
+  players=unique(ProcessedData[ProcessedData$Position==pos,'Name'],na.rm=TRUE)
+  players=setdiff(c(players,'Mean'),params$name)
+  
+  freqs=lapply(players,function (x) sum(ProcessedData$Name%in%x))
+  #find player who has most dataframe entries in same position
+  mostSimilar=which(unlist(freqs)==max(unlist(freqs)))
+  #secondMost=which(unlist(freqs)==max(unlist(freqs)[-mostSimilar]))
+  #Add other variables to this
+  relevantVariables=c('Duration','Distance','New.Bodyload','Collisions','Avg.Speed',"Avg.HR","Sprint.Count","Metabolic.Power.Average")
+  mydata=ProcessedData[ProcessedData$Date>=(max(ProcessedData[ProcessedData$Name==params$name,'Date'])-minusDays)&ProcessedData$Name==players[mostSimilar],relevantVariables]
+  mydata1=ProcessedData[ProcessedData$Date>=max(ProcessedData[ProcessedData$Name==params$name,'Date'])-minusDays&ProcessedData$Name==params$name,relevantVariables]
+  #mydata2=ProcessedData[ProcessedData$Name==players[secondMost],relevantVariables]
+  mydata3=ProcessedData[ProcessedData$Date>=max(ProcessedData[ProcessedData$Name==params$name,'Date'])-minusDays&ProcessedData$Name=="Mean",relevantVariables]
+  colMeans(mydata)
+  colMeans(mydata1)
+  renderData=as.data.frame(rbind(colMeans(mydata),colMeans(mydata1),colMeans(mydata3)))
+  #renderData=as.data.frame(rbind(c(35,2500,80,15),c(0,0,0,0),renderData))
+  #rownames(renderData)=c(params$name,as.character(players[mostSimilar]),"Mean")
+  
+  #colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9), rgb(0.2,0.8,0.1,0.4))
+  #colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4), rgb(0.2,0.8,0.1,0.4))
+  
+  colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
+  colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
+  #cat('players')
+  #cat(players)
+  #cat('Radarchart of ',params$name,' ',mostSimilar)
+  #[-c(1,2),] 
+  radarchart( renderData , axistype=3 , maxmin=F, seg=5,
+              pcol=colors_border, plwd=3, plty=1,title=t, axislabcol="black",
+              vlcex=1.5)
+  #[-c(1,2),]
+  legend(x=0.7, y=1, legend =c(params$name,as.character(players[mostSimilar]),"Mean"), bty = "n", pch=20 , col=colors_in , text.col = "Black", cex=1.2, pt.cex=3)
+}
+
+```
+
+```{r firstRadarChart, echo=FALSE}
+#Plots mean value of variables for the whole dataframe
+t=paste('RadarChart for player ',params$name,' for all values in dataframe',sep='')
+radarPlotDataFrame(t)
+```
+
+```{r secondRadarChart, echo=FALSE}
+#Plots mean value of variables for the past month
+t=paste('RadarChart for player ',params$name,' for past month values in dataframe',sep='')
+radarPlotDataFrame(t,31)
+```
+
+```{r dataFrameSummary, echo=FALSE}
+dataFrameNames=c('Drill','Start.Time','Duration','Distance','Max.Speed','Avg.Speed','Max.HR',"Avg.HR" ,"Sprint.Count","New.Bodyload" ,"Collisions","Sprint.Total.Distance" ,"Metabolic.Power.Average")
+library(knitr)
+
+kable(
+ head(ProcessedData[ProcessedData$Name==params$name,dataFrameNames],15)
+)
+
+```
