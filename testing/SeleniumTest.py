@@ -20,7 +20,7 @@ from selenium.webdriver.common.keys import Keys
 # Test Report – This component organizes test results, display pass/fail status of the executed test cases. It even provides the details of steps, summary of overall run and the time lapsed in execution
 #==============================================================================
 #==============================================================================
-browser = webdriver.Chrome('C:\\Users\\Marion\\Downloads\\chromedriver_win32(1)\\chromedriver.exe')
+browser = webdriver.Chrome('PathToChromeDriverExecutable')
 url='localhost:6060'
 browser.get(url)
 ids = browser.find_elements_by_xpath('//*[@id]')
@@ -32,7 +32,7 @@ for ii in ids:
 browser.find_element_by_class_name('progress').text
 #     print(ii.tag_name)
 # #browser.find_element_by_css_selector('.input-group-btn:first-child ').click()
-browser.find_element_by_id('file1').send_keys("C:\\Users\\Marion\\Downloads\\GPSDataDateModified.csv")
+browser.find_element_by_id('file1').send_keys("PathToData")
 # 
 #==============================================================================
 
@@ -45,7 +45,7 @@ class AppTest(unittest.TestCase):
     #make this class method so that it isn't run multiple times    
     @classmethod    
     def setUp(inst):
-        inst.driver=webdriver.Chrome('C:\\Users\\Marion\\Downloads\\chromedriver_win32(1)\\chromedriver.exe')
+        inst.driver=webdriver.Chrome('PathToChromeDriverExecutable')
         inst.driver.get(url)
         
     def test_title(self):
@@ -59,7 +59,7 @@ class AppTest(unittest.TestCase):
     
     def test_local_file_upload(self):
         '''check that the page allows the user to upload a local csv file'''
-        self.driver.find_element_by_id('file1').send_keys("C:\\Users\\Marion\\Downloads\\GPSDataDateModified.csv")
+        self.driver.find_element_by_id('file1').send_keys("PathToData")
         self.assertEqual(self.driver.find_element_by_class_name('progress'),'Upload complete','When a file upload is attempted, the upload box does not display Upload complete')
     
         
