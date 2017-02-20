@@ -17,12 +17,10 @@ import time
 #==============================================================================
 # import webbrowser
 #webbrowser.open('https://docs.python.org/3.5/library/webbrowser.html')
-#browser = webdriver.Chrome('/home/user15/Downloads/David/chromedriver')
 # url='localhost:6060'
 # browser.get(url)
 # len(browser.window_handles)
 # browser.find_element_by_xpath("//input [@id='dropboxDownload']").click()
-#browser.find_element_by_xpath("//input [@id='file1']").send_keys("/home/user15/Dropbox/FinalYearProject/GPSDataDateModified.csv")
 #browser.find_element_by_class_name('progress').text,'Upload complete','When a file upload is attempted, the upload box does not display Upload complete')
 
 # /div [@class=selectize-input items has-options full has-items]')
@@ -41,13 +39,13 @@ class UploadTest(unittest.TestCase):
     @classmethod    
     def setUp(inst):
         url='localhost:6060'
-        inst.driver=webdriver.Chrome('/home/user15/Downloads/David/chromedriver')
+        inst.driver=webdriver.Chrome('PathToChromedriver')
         inst.driver.get(url)
         
 
     def test_local_file_upload(self):
         '''check that the page has the ability to upload a local file'''
-        self.driver.find_element_by_xpath("//input [@id='file1']").send_keys("/home/user15/Dropbox/FinalYearProject/GPSDataDateModified.csv")
+        self.driver.find_element_by_xpath("//input [@id='file1']").send_keys("PathToData")
         #come back to this
         time.sleep(8)
         self.assertEqual(self.driver.find_element_by_class_name('progress').text,'Upload complete','When a file upload is attempted, the upload box does not display Upload complete')
