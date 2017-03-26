@@ -1,0 +1,17 @@
+\section{Motivation}
+In recent years, the vast majority of major sports teams have made the choice to
+set up a dedicated data analytics department in order to boost the performance
+of their athletes. Statistical analyses are now motivating many decisions that in the past would have been reserved solely for instinct and experience \cite{StatsInSport}. This is due to the fact that the volume of data available to sports teams is increasing rapidly and the storage capacity for this data has become a reality in recent years \cite{GrowthOfStorageCap}.\newline
+
+A barrier has risen for sporting teams now attempting to utilize this data: how can patterns in these vast amounts of data be extracted to give meaningful and interpretable conclusions about team performance? This is a real challenge, due to the scale of the problem. If a dataset has 70 different variables and it is desired to graphically explore the pairwise relationships of each of these variables, $\binom{70}{2}$ = 2,415 graphs need to be examined! This is clearly unfeasible and so more sophisticated techniques need to be employed in order to systematically examine and analyze the data. This is the main motivation behind this project. 
+
+\section{Data}
+I used a single dataset throughout this project that was obtained from a professional soccer team. The data was generated from GPS devices developed by GPSports, a company involved in both the development of such devices as well as providing interpretation of the device output. GPSports report that their units typically use a 15Hz positioning sampling rate, the basic signal from which is enhanced through intelligent algorithms that use a combination of GPS signal, athlete speed, direction and activity immediately prior to the sampling point \cite{tracking.pdf}. This results in a reported \textless 1\% error in the recorded distance with respect to the true distance covered \cite{tracking.pdf}. This is important since many of the derived variables in the data depend on distance. It is also important to note that it is well documented that the instrumentation is liable to errors in the variables that it records, so all GPS data will contain some degree of inherent uncertainty due to irreducible instrumentation noise/error.\newline
+
+In the raw dataset, there were 8028 observations of 72 variables. The data was recorded over the period 22/01/2015 - 16/01/2016, with 129 unique training dates in that period. Each observation held the variables recorded during a distinct drill that an athelete had performed. The observations were recorded for 50 different athletes. The maximum number of unique training dates for any one athlete was 91, the minimum was 1 and the mean was 33.42. The variables recorded were diverse, including drill names, drill times, heart rate data, speeds the athlete achieved, metabolic information as well as zonal variables which provide the details of the activity within a certain threshold, for example the time spent running above 5m/s.
+
+
+
+
+
+

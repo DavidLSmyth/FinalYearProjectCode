@@ -1,0 +1,133 @@
+\documentclass[a4paper, 12pt, twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx,wrapfig,lipsum}
+\usepackage[left=25mm,right=20mm,top=15mm, bottom=20mm]{geometry}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[export]{adjustbox}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[font=scriptsize,labelfont=bf]{caption}
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{}{0pt}{\Huge}
+\titlespacing*{\chapter} {0pt}{20pt}{40pt}
+
+\begin{document}
+	\title{ %
+		\textbf{Statistical Analysis and Visualization of High Performance Athlete Data} \\
+		\hfill\break
+		\large
+		\textbf{David Smyth}\\ 
+		13383861\\
+		\hfill\break
+		Final Year Project\\
+		National University of Ireland, Galway\\
+		Supervisor: Prof. John Newell\\
+		\begin{figure}[!b]
+			\centering
+			\includegraphics[width=0.8\linewidth, height=9cm]{Images/CoverPage.png}
+		\end{figure}
+	}
+	\maketitle
+	
+	
+	\newpage
+	\vspace*{\fill}
+	I hereby certify that this material, which I now submit for assessment on the programme of study leading to the award of degree is entirely my own work and had not been taken from the work of others save and to the extent that such work has been cited and acknowledged within the text of my work.
+	\hfill\break	
+	\newline
+	Signed:\hspace{0.2cm} \makebox[1.5in]{\hrulefill}
+	\hspace{0.4cm} ID no:\hspace{0.2cm} \makebox[1.5in]{\hrulefill}     
+	\newline
+	Date:\hspace{0.2cm} \makebox[1.5in]{\hrulefill}
+	\vspace*{\fill}
+	\newpage
+	
+	\begin{abstract}
+		This project comprises of a statistical analysis and an investigation into visualization techniques of a large data set obtained from GPS tracking units. The data originated from a competitive soccer team and was not simulated, hence challenges such as missing data, high dimensionality and possible outliers were all present when attempting to perform the analysis. The main goal of the visualization of the data was to develop a general tool that could offer insights into player performance and training intensity based on a dataset that can be uploaded by a coach. The Shiny package in R was used to achieve this due to it's natural fit to the nature of the problem. The main goal of the statistical analysis of the data was to provide an insight to how a variable in the data, New.Bodyload, can be interpreted and reconstructed using other variables in the data that are more familiar to coaches and athletes.
+		
+	\end{abstract}
+	\tableofcontents
+	
+	\newpage	
+	\chapter{Introduction}
+	\input{Chapters/Introduction.tex}
+	
+	\newpage
+	\chapter{Statistical Analysis}
+	\input{Chapters/Maths.tex}
+	
+	\newpage
+	\chapter{Data Visualization}
+	\input{Chapters/Computer.tex}
+	
+	\newpage
+	\chapter{Conclusion}
+	\input{Chapters/Conclusion.tex}
+	
+	\newpage		
+	\begin{thebibliography}{1}
+		\bibitem{StatsInSport}
+		Prominence of Statistical Analyses in Sports
+		\\\texttt{http://www.economist.com/node/2494781}
+		\bibitem{GrowthOfStorageCap}
+		Digital Data Storage Growth
+		\\\texttt{http://www.eetimes.com/author.asp?section\_id=36\&doc\_id=1330462}
+		\bibitem{tracking.pdf}
+		GPSports FAQ
+		\\\texttt{http://www.gpsports.com/support/FAQ\_GPS\_Tracking.pdf}
+		\bibitem{shinyCheatSheet}
+		Shiny Cheat Sheet
+		\\\texttt{https://www.rstudio.com/wp-content/uploads/2015/02/shiny-cheatsheet.pdf}
+		\bibitem{HadleyExploratoryAnalysis}
+		R for Data Science
+		\\\texttt{http://r4ds.had.co.nz/exploratory-data-analysis.html}
+		\bibitem{GPSportsVariables}
+		GPSports variables analysis
+		\\\texttt{http://gpsports.com/gpsports-101/}
+		\bibitem{NewBodyloadFAQ}
+		GPSports New.Bodyload documentation
+		\\\texttt{http://www.gpsports.com/support/UnderstandingBodyLoad.pdf}
+		\bibitem{ISLR}
+		An Introduction to Statistical Learning with Applications in R
+		\\\texttt{http://www-bcf.usc.edu/~gareth/ISL/ISLR\%20Sixth\%20Printing.pdf}
+		\bibitem{ESL}
+		The Elements of Statistical Learning: Data Mining, Inference, and Prediction.
+		\\\texttt{http://statweb.stanford.edu/~tibs/ElemStatLearn/}
+		\bibitem{VIF}
+		Detecting Multicollinearity Using Variance Inflation Factors
+		\\\texttt{https://onlinecourses.science.psu.edu/stat501/node/347}
+		\bibitem{Multicollinearity}
+		Multicollinearity in Regression Models
+		\\\texttt{\url{http://sites.stat.psu.edu/~ajw13/SpecialTopics/multicollinearity.pdf}}
+		
+		\bibitem{ModellingWithoutOutliers}
+		Data Modeling file without suspected outliers
+		\\\texttt{\url{https://github.com/DavidLSmyth/FinalYearProjectCode/blob/master/ModellingAndExplorationRFiles/RegressionModel.R}}
+		
+		\bibitem{ModellingWithOutliers}
+		Data Modeling file with suspected outliers
+		\\\texttt{\url{https://github.com/DavidLSmyth/FinalYearProjectCode/blob/master/ModellingAndExplorationRFiles/RegressionModelOutlier.R}}
+		
+		\bibitem{PreprocessingFile}
+		Data Preprocessing \& Cleaning File
+		\\\texttt{\url{https://github.com/DavidLSmyth/FinalYearProjectCode/blob/master/ModellingAndExplorationRFiles/PreprocessForPrediction.R}}
+		
+		\bibitem{ShinyServer}
+		Shiny Server File
+		\\\texttt{\url{https://github.com/DavidLSmyth/FinalYearProjectCode/blob/master/ShinyFiles/server.r}}
+		
+		\bibitem{ShinyUI}
+		Shiny User Interface File
+		\\\texttt{\url{https://github.com/DavidLSmyth/FinalYearProjectCode/blob/master/ShinyFiles/ui.r}}
+		
+		\bibitem{AppTestFiles}
+		Testing Files for Shiny Application
+		\\\texttt{\url{https://github.com/DavidLSmyth/FinalYearProjectCode/tree/master/testing}}
+		
+		
+	\end{thebibliography}
+\end{document}

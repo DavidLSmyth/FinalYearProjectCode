@@ -1,0 +1,50 @@
+\contentsline {chapter}{\numberline {1}Introduction}{3}
+\contentsline {section}{\numberline {1.1}Motivation}{3}
+\contentsline {section}{\numberline {1.2}Data}{3}
+\contentsline {chapter}{\numberline {2}Statistical Analysis}{4}
+\contentsline {section}{\numberline {2.1}Data Preprocessing}{4}
+\contentsline {subsection}{\numberline {2.1.1}Outliers}{4}
+\contentsline {section}{\numberline {2.2}Data Exploration}{5}
+\contentsline {subsection}{\numberline {2.2.1}Duplicated/Missing Values}{7}
+\contentsline {subsection}{\numberline {2.2.2}Training Frequency}{8}
+\contentsline {subsection}{\numberline {2.2.3}Correlations and Predictors}{9}
+\contentsline {section}{\numberline {2.3}Data Modeling}{10}
+\contentsline {subsection}{\numberline {2.3.1}Intended Outcomes}{11}
+\contentsline {subsection}{\numberline {2.3.2}Linear Models}{12}
+\contentsline {subsubsection}{Simple Linear Regression}{12}
+\contentsline {subsubsection}{Forward Stepwise Selection}{15}
+\contentsline {subsubsection}{Best Subset Selection}{16}
+\contentsline {subsubsection}{Lasso}{17}
+\contentsline {subsubsection}{Polynomial Regression}{17}
+\contentsline {subsubsection}{Linear Regression With Interaction Terms}{18}
+\contentsline {subsubsection}{Principal Components Analysis (PCA)}{19}
+\contentsline {subsection}{\numberline {2.3.3}Non-Linear Models}{19}
+\contentsline {subsubsection}{Regression Tree}{19}
+\contentsline {subsubsection}{Clustering}{20}
+\contentsline {subsubsection}{K Nearest Neighbors Regression (KNN)}{22}
+\contentsline {subsection}{\numberline {2.3.4}Modeling data with suspected outliers}{23}
+\contentsline {section}{\numberline {2.4}Results}{24}
+\contentsline {section}{\numberline {2.5}Conclusions}{27}
+\contentsline {subsubsection}{Suspected Outliers}{27}
+\contentsline {subsubsection}{Optimal Models}{27}
+\contentsline {subsubsection}{Inferences}{28}
+\contentsline {subsubsection}{Further Exploration and Analyses}{29}
+\contentsline {chapter}{\numberline {3}Data Visualization}{30}
+\contentsline {section}{\numberline {3.1}Shiny}{30}
+\contentsline {section}{\numberline {3.2}Functionality}{31}
+\contentsline {subsection}{\numberline {3.2.1}Dropbox File Upload}{31}
+\contentsline {subsection}{\numberline {3.2.2}CSV Upload Format}{32}
+\contentsline {subsection}{\numberline {3.2.3}Application Tabs}{32}
+\contentsline {subsubsection}{Longitudinal Plot}{33}
+\contentsline {subsubsection}{Training Calendar}{33}
+\contentsline {subsubsection}{Bar Plot}{33}
+\contentsline {subsubsection}{Rankings}{34}
+\contentsline {subsubsection}{Report Downloader}{34}
+\contentsline {section}{\numberline {3.3}Dependencies}{34}
+\contentsline {subsubsection}{Reactive Expressions}{35}
+\contentsline {subsubsection}{Observe Expressions}{35}
+\contentsline {subsubsection}{Render Expressions}{36}
+\contentsline {subsubsection}{Dependency Graph}{36}
+\contentsline {section}{\numberline {3.4}Program Work-flow}{36}
+\contentsline {section}{\numberline {3.5}Testing}{37}
+\contentsline {chapter}{\numberline {4}Conclusion}{38}
